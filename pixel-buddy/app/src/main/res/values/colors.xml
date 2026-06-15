@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Pixel Buddy 霓虹像素风配色 -->
+    <color name="background_dark">#FF1A1A2E</color>
+    <color name="surface_dark">#FF16213E</color>
+    <color name="surface_light">#FF0F3460</color>
+    <color name="primary_neon">#FF00FF88</color>
+    <color name="secondary_pink">#FFFF6B9D</color>
+    <color name="accent_blue">#FF00D4FF</color>
+    <color name="accent_yellow">#FFFFE600</color>
+    <color name="on_primary">#FF1A1A2E</color>
+    <color name="on_background">#FFE0FFE0</color>
+    <color name="text_dim">#FF4ECCA3</color>
+</resources>

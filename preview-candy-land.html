@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍭 糖果乐园 Candy Land - UI 预览</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+    background: #f0e6f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  /* ── Phone Frame ── */
+  .phone {
+    width: 375px; height: 750px;
+    background: #FFF5F7;
+    border-radius: 36px;
+    box-shadow: 0 20px 60px rgba(255,181,194,0.3), 0 0 0 4px #FFB5C2, 0 0 0 8px #FFD1DA;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .notch {
+    height: 36px;
+    background: linear-gradient(180deg, #FFD1DA 0%, #FFB5C2 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 6px;
+    position: relative;
+  }
+  .notch-bar {
+    width: 100px; height: 4px;
+    background: #FFF; border-radius: 2px;
+    opacity: 0.5;
+  }
+  .notch-time {
+    position: absolute; left: 20px; bottom: 6px;
+    font-size: 11px; color: #FFF; font-weight: 600;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,181,194,0.2);
+  }
+  .header-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFB5C2, #A8E6CF);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .header-title { font-size: 15px; font-weight: 700; color: #D4687C; }
+  .header-sub { font-size: 11px; color: #C9A0A8; }
+
+  /* ── Screens area ── */
+  .screen { flex: 1; overflow-y: auto; display: none; flex-direction: column; padding: 12px 14px; }
+  .screen.active { display: flex; }
+
+  /* ── CHAT SCREEN ── */
+  .chat-bubble {
+    max-width: 80%; padding: 12px 16px;
+    border-radius: 24px;
+    font-size: 15px; line-height: 1.5;
+    margin-bottom: 10px;
+    animation: popIn 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes popIn {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .chat-bubble.ai {
+    align-self: flex-start;
+    background: #FFFFFF;
+    border: 2px solid #FFD1DA;
+    border-bottom-left-radius: 8px;
+    color: #5D4E50;
+  }
+  .chat-bubble.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #A8E6CF, #B5D8FF);
+    border-bottom-right-radius: 8px;
+    color: #2E4A3A;
+  }
+  .chat-avatar-row {
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 2px; font-size: 11px; color: #C9A0A8;
+  }
+  .chat-avatar-row.right { justify-content: flex-end; }
+
+  /* ── VOICE SCREEN ── */
+  .voice-screen {
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+  }
+  .voice-avatar-ring {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .voice-avatar-ring::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,181,194,0.35);
+    animation: ripple 2s ease-in-out infinite;
+  }
+  .voice-avatar-ring::after {
+    content: '';
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,181,194,0.18);
+    animation: ripple 2s ease-in-out 0.6s infinite;
+  }
+  @keyframes ripple {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.08); opacity: 0.15; }
+  }
+  .voice-avatar {
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFD1DA, #FFF1C1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 72px;
+    z-index: 1;
+    box-shadow: 0 8px 30px rgba(255,181,194,0.3);
+  }
+  .voice-status {
+    font-size: 13px; color: #C9A0A8;
+    padding: 6px 16px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    margin-top: 4px;
+  }
+  .voice-status .dot {
+    display: inline-block; width: 8px; height: 8px;
+    border-radius: 50%; background: #FF6B8A;
+    margin-right: 6px;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .voice-hint {
+    font-size: 12px; color: #C9A0A8;
+    margin-top: 8px;
+  }
+
+  /* ── STORY SCREEN ── */
+  .story-cover {
+    width: 100%; aspect-ratio: 1.4;
+    background: linear-gradient(135deg, #FFF1C1 0%, #FFD1DA 40%, #A8E6CF 80%, #B5D8FF 100%);
+    border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 56px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(255,181,194,0.2);
+  }
+  .story-title { font-size: 20px; font-weight: 700; color: #D4687C; }
+  .story-sub { font-size: 13px; color: #C9A0A8; margin-bottom: 14px; }
+  .story-progress {
+    width: 100%; height: 8px;
+    background: #FFD1DA; border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .story-progress-bar {
+    width: 35%; height: 100%;
+    background: linear-gradient(90deg, #FFB5C2, #A8E6CF);
+    border-radius: 4px;
+  }
+  .story-controls {
+    display: flex; gap: 20px; align-items: center; justify-content: center;
+  }
+  .story-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #FFF; border: 2px solid #FFD1DA;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .story-btn:hover { transform: scale(1.1); }
+  .story-btn.play {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #FFB5C2, #A8E6CF);
+    border: none; color: #FFF; font-size: 26px;
+  }
+  .story-list {
+    display: flex; flex-direction: column; gap: 10px; margin-top: 18px;
+  }
+  .story-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px; background: #FFF; border-radius: 18px;
+    cursor: pointer;
+  }
+  .story-item-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: linear-gradient(135deg, #A8E6CF, #B5D8FF);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  .story-item-info { flex: 1; }
+  .story-item-title { font-size: 14px; font-weight: 600; color: #5D4E50; }
+  .story-item-meta { font-size: 11px; color: #C9A0A8; }
+
+  /* ── Bottom Nav ── */
+  .bottom-nav {
+    display: flex; border-top: 1px solid rgba(255,181,194,0.2);
+    padding: 6px 0 16px;
+    background: #FFF5F7;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+    cursor: pointer; padding: 4px 0;
+    transition: transform 0.15s;
+    border: none; background: none;
+    font-family: inherit;
+  }
+  .nav-item:hover { transform: scale(1.08); }
+  .nav-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    background: transparent;
+    transition: background 0.2s;
+  }
+  .nav-item.active .nav-icon {
+    background: linear-gradient(135deg, #FFB5C2, #FFD1DA);
+  }
+  .nav-label {
+    font-size: 11px; font-weight: 600;
+    color: #C9A0A8;
+  }
+  .nav-item.active .nav-label { color: #D4687C; }
+
+  /* ── Switcher buttons above phone ── */
+  .switcher {
+    display: flex; gap: 8px; margin-bottom: 16px;
+  }
+  .switcher button {
+    padding: 8px 20px; border-radius: 20px; border: 2px solid #FFD1DA;
+    background: #FFF; cursor: pointer; font-size: 13px; font-weight: 600;
+    color: #C9A0A8; transition: all 0.2s;
+    font-family: inherit;
+  }
+  .switcher button:hover, .switcher button.on {
+    background: linear-gradient(135deg, #FFB5C2, #A8E6CF);
+    color: #FFF; border-color: transparent;
+  }
+
+  .wrapper { display: flex; flex-direction: column; align-items: center; }
+  .tag-line {
+    font-size: 13px; color: #D4687C; margin-bottom: 12px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="tag-line">🍭 糖果乐园 Candy Land — 点击下方按钮切换页面</div>
+  <div class="switcher">
+    <button class="on" data-screen="chat">💬 聊天</button>
+    <button data-screen="voice">🎤 实时语音</button>
+    <button data-screen="story">📖 故事</button>
+  </div>
+  <div class="phone" id="phone">
+    <div class="notch">
+      <span class="notch-time">9:41</span>
+      <div class="notch-bar"></div>
+    </div>
+    <div class="header">
+      <div class="header-avatar">🐻</div>
+      <div>
+        <div class="header-title">糖果小熊</div>
+        <div class="header-sub">你的好朋友 · 在线</div>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="screen active" id="screen-chat">
+      <div class="chat-bubble ai">
+        <div class="chat-avatar-row">🐻 糖果小熊</div>
+        你好呀！欢迎来到糖果乐园～今天想聊什么呀？🍬
+      </div>
+      <div class="chat-bubble user">
+        <div class="chat-avatar-row right">👶 宝宝</div>
+        我想听故事！
+      </div>
+      <div class="chat-bubble ai">
+        <div class="chat-avatar-row">🐻 糖果小熊</div>
+        好呀！我有好多有趣的故事呢～你想听小兔子的冒险，还是彩虹城堡的秘密？🐰🌈
+      </div>
+      <div class="chat-bubble user">
+        <div class="chat-avatar-row right">👶 宝宝</div>
+        彩虹城堡！
+      </div>
+      <div class="chat-bubble ai">
+        <div class="chat-avatar-row">🐻 糖果小熊</div>
+        太棒了！从前有一座彩虹城堡，藏在软软的云朵上面……🏰✨ 城堡里住着七个颜色小精灵，每一个都有神奇的魔法哦！
+      </div>
+    </div>
+
+    <!-- VOICE -->
+    <div class="screen voice-screen" id="screen-voice">
+      <div class="voice-avatar-ring">
+        <div class="voice-avatar">🐻</div>
+      </div>
+      <div class="voice-status"><span class="dot"></span>正在听你说话……</div>
+      <div class="voice-hint">👆 直接说话就行，不用按任何按钮哦</div>
+    </div>
+
+    <!-- STORY -->
+    <div class="screen" id="screen-story">
+      <div class="story-cover">🌈🏰</div>
+      <div class="story-title">彩虹城堡的秘密</div>
+      <div class="story-sub">第 1 章 · 适合 3-6 岁 · 8 分钟</div>
+      <div class="story-progress"><div class="story-progress-bar"></div></div>
+      <div class="story-controls">
+        <button class="story-btn">⏮</button>
+        <button class="story-btn play">▶</button>
+        <button class="story-btn">⏭</button>
+      </div>
+      <div class="story-list">
+        <div class="story-item">
+          <div class="story-item-icon">🐰</div>
+          <div class="story-item-info">
+            <div class="story-item-title">小兔子的冒险</div>
+            <div class="story-item-meta">5 分钟 · 3-5 岁</div>
+          </div>
+        </div>
+        <div class="story-item">
+          <div class="story-item-icon">🦊</div>
+          <div class="story-item-info">
+            <div class="story-item-title">小狐狸和月亮</div>
+            <div class="story-item-meta">6 分钟 · 2-4 岁</div>
+          </div>
+        </div>
+        <div class="story-item">
+          <div class="story-item-icon">🐼</div>
+          <div class="story-item-info">
+            <div class="story-item-title">熊猫宝宝的一天</div>
+            <div class="story-item-meta">7 分钟 · 3-6 岁</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+      <button class="nav-item active" data-nav="chat">
+        <div class="nav-icon">💬</div>
+        <div class="nav-label">聊天</div>
+      </button>
+      <button class="nav-item" data-nav="voice">
+        <div class="nav-icon">🎤</div>
+        <div class="nav-label">语音</div>
+      </button>
+      <button class="nav-item" data-nav="story">
+        <div class="nav-icon">📖</div>
+        <div class="nav-label">故事</div>
+      </button>
+      <button class="nav-item" data-nav="game">
+        <div class="nav-icon">🎮</div>
+        <div class="nav-label">游戏</div>
+      </button>
+      <button class="nav-item" data-nav="settings">
+        <div class="nav-icon">⚙️</div>
+        <div class="nav-label">设置</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const screens = { chat: 'screen-chat', voice: 'screen-voice', story: 'screen-story' };
+
+  // Top switcher
+  document.querySelectorAll('.switcher button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.switcher button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const key = btn.dataset.screen;
+      Object.values(screens).forEach(id => document.getElementById(id).classList.remove('active'));
+      document.getElementById(screens[key]).classList.add('active');
+      // Sync bottom nav
+      document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelector(`.bottom-nav [data-nav="${key}"]`).classList.add('active');
+    });
+  });
+
+  // Bottom nav
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+      const key = item.dataset.nav;
+      if (screens[key]) {
+        Object.values(screens).forEach(id => document.getElementById(id).classList.remove('active'));
+        document.getElementById(screens[key]).classList.add('active');
+        document.querySelectorAll('.switcher button').forEach(b => b.classList.remove('on'));
+        document.querySelector(`.switcher [data-screen="${key}"]`).classList.add('on');
+      }
+    });
+  });
+</script>
+</body>
+</html>

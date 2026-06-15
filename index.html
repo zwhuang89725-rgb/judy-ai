@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小孩陪伴 APP - UI 风格预览</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0f1a;
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #FFB5C2, #00FF88, #F9D56E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle { color: #888; margin-bottom: 40px; font-size: 14px; }
+  .cards {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1100px;
+  }
+  .card {
+    width: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .card:hover { transform: translateY(-6px); }
+  .card-preview {
+    height: 240px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .card-preview .phone {
+    width: 140px;
+    height: 280px;
+    border-radius: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    position: absolute;
+    bottom: -40px;
+    background-size: cover;
+    background-position: top center;
+  }
+  .card-body {
+    padding: 20px;
+    text-align: center;
+  }
+  .card-body h3 { font-size: 20px; margin-bottom: 4px; }
+  .card-body .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    opacity: 0.8;
+  }
+  .card-body p { font-size: 12px; color: #999; margin-top: 8px; line-height: 1.5; }
+
+  /* Card-specific */
+  .card-a .card-preview { background: linear-gradient(180deg, #FFF5F7 0%, #FFB5C2 40%, #A8E6CF 100%); }
+  .card-a .card-body { background: #1a1a2e; }
+  .card-a .card-body h3 { color: #FFB5C2; }
+  .card-a .tag { background: rgba(255,181,194,0.2); color: #FFB5C2; }
+
+  .card-b .card-preview { background: linear-gradient(180deg, #1A1A2E 0%, #16213E 60%, #0F3460 100%); }
+  .card-b .card-body { background: #1a1a2e; }
+  .card-b .card-body h3 { color: #00FF88; }
+  .card-b .tag { background: rgba(0,255,136,0.15); color: #00FF88; }
+
+  .card-c .card-preview { background: linear-gradient(180deg, #0D1B3E 0%, #1B2A4A 50%, #2D3F6B 100%); }
+  .card-c .card-body { background: #1a1a2e; }
+  .card-c .card-body h3 { color: #F9D56E; }
+  .card-c .tag { background: rgba(249,213,110,0.15); color: #F9D56E; }
+
+  .card-a:hover { box-shadow: 0 12px 40px rgba(255,181,194,0.25); }
+  .card-b:hover { box-shadow: 0 12px 40px rgba(0,255,136,0.2); }
+  .card-c:hover { box-shadow: 0 12px 40px rgba(249,213,110,0.2); }
+
+  .mock-phone-mini {
+    width: 130px; height: 260px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: absolute;
+    bottom: -20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+<h1>🎨 小孩陪伴 APP · UI 风格预览</h1>
+<p class="subtitle">点击卡片进入对应风格的交互预览</p>
+<div class="cards">
+  <a class="card card-a" href="preview-candy-land.html">
+    <div class="card-preview">
+      <div class="mock-phone-mini" style="background:linear-gradient(180deg,#FFF 0%,#FFF1C1 30%,#FFB5C2 70%,#A8E6CF 100%);border:2px solid #FFB5C2;"></div>
+    </div>
+    <div class="card-body">
+      <h3>🍭 糖果乐园</h3>
+      <span class="tag">Candy Land</span>
+      <p>软萌糖果色 · 大圆角 · 小动物头像 · 白底浅色</p>
+    </div>
+  </a>
+  <a class="card card-b" href="preview-pixel-buddy.html">
+    <div class="card-preview">
+      <div class="mock-phone-mini" style="background:#1A1A2E;border:2px solid #00FF88;"></div>
+    </div>
+    <div class="card-body">
+      <h3>👾 像素伙伴</h3>
+      <span class="tag">Pixel Buddy</span>
+      <p>复古游戏风 · 霓虹色 · 像素表情 · 暗色屏幕</p>
+    </div>
+  </a>
+  <a class="card card-c" href="preview-starry-fairytale.html">
+    <div class="card-preview">
+      <div class="mock-phone-mini" style="background:linear-gradient(180deg,#0D1B3E 0%,#1B2A4A 50%,#2D3F6B 100%);border:2px solid #F9D56E;"></div>
+    </div>
+    <div class="card-body">
+      <h3>🌙 星空童话</h3>
+      <span class="tag">Starry Fairytale</span>
+      <p>睡前故事风 · 月光金 · 柔光 · 暗色护眼</p>
+    </div>
+  </a>
+</div>
+</body>
+</html>
