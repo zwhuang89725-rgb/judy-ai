@@ -1,0 +1,26 @@
+# Gradle
+.gradle/
+build/
+*.iml
+.idea/
+
+# Local properties
+local.properties
+
+# Android
+app/build/
+*.apk
+*.aab
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Reasonix (AI agent workspace)
+.reasonix/
+.codegraph/
+
+# Misc
+*.log
+*.db-shm
+*.db-wal

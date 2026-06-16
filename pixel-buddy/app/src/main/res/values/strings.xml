@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pixel Buddy</string>
+    <string name="tab_chat">CHAT</string>
+    <string name="tab_voice">VOICE</string>
+    <string name="tab_story">STORY</string>
+    <string name="tab_game">GAME</string>
+    <string name="tab_settings">CONFIG</string>
+    <string name="voice_listening">[ 正在监听... ]</string>
+    <string name="voice_hint">直接说话，无需按键</string>
+    <string name="chat_hint">输入消息...</string>
+    <string name="story_now_playing">正在播放</string>
+</resources>
